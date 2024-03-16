@@ -52,7 +52,7 @@ const Login = () => {
   return (
     <div className="App">
       <Header />
-      <div className="back-ground d-flex flex-column align-items-center justify-content-center">
+      <div className="body2 d-flex flex-column align-items-center justify-content-center">
         <div className="login-card">
           <h2 className="text-center mb-4">Login</h2>
           <form>
