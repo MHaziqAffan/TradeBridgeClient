@@ -6,7 +6,6 @@ const FindSeller = () => {
   const logedinUser = useSelector((state) => state.login.user);
   const [sellers, setSellers] = useState([]);
   useEffect(() => {
-    console.log(logedinUser);
     axios
       .get("http://localhost:8080/user/showsellers", {
         params: { username: logedinUser.username },

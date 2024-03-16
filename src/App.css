@@ -64,7 +64,33 @@
   height: 100%;
   z-index: -1; /* Send it to the back */
 }
+.body1 {
+  background-image: url('front.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed; /* Keep the background fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
 
+.body2 {
+  background-image: url('front.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed; /* Keep the background fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
 .login-card {
   background: rgba(255, 255, 255, 0.7);
   padding: 100px;
