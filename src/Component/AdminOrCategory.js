@@ -8,6 +8,7 @@ export default function AdminOrCategory() {
   const productName = useRef();
   const catName = useRef();
   const [categories, setCategories] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     // Fetch categories from the backend when component mounts
@@ -19,7 +20,8 @@ export default function AdminOrCategory() {
       .catch((err) => {
         console.error("Error fetching categories:", err);
       });
-  }, []);
+      console.log("in use effect")
+  }, [reload]);
   const addcat = (e) => {
     e.preventDefault();
     if (catName.current.value === "" || catName.current.value === " ") {
@@ -32,8 +34,8 @@ export default function AdminOrCategory() {
         .then((res) => {
           if (res.status === 201) {
             alert(res.data.message);
-            setCategories([...categories, res.data.category]);
-            catName.current.value=''
+            catName.current.value = "";
+            setReload(!reload);
           } else if (res.status === 202) {
             alert(res.data.message);
           } else {
@@ -43,17 +45,19 @@ export default function AdminOrCategory() {
         .catch((err) => {
           alert("Error sending data to the backend:", err);
         });
+     
+      console.log(reload)
     }
   };
 
   const addproduct = (e) => {
-    e.preventDefault()
-    const selectedCategoryId = document.getElementById('category').value;
+    e.preventDefault();
+    const selectedCategoryId = document.getElementById("category").value;
     if (productName.current.value.trim() === "") {
       alert("Please enter product name before adding");
       return;
     }
-  
+
     axios
       .post("http://localhost:8080/product/addproduct", {
         productName: productName.current.value,
@@ -62,20 +66,19 @@ export default function AdminOrCategory() {
       .then((res) => {
         if (res.status === 201) {
           alert(res.data.message);
-          productName.current.value = ''; // Clear input field after successful addition
-        }
-        else if (res.status === 202) {
+          productName.current.value = ""; // Clear input field after successful addition
+        } else if (res.status === 202) {
           alert(res.data.message);
         } else {
           alert("Server error");
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         alert("Error sending data to the backend:", err);
       });
   };
-  
+
   return (
     <div className="userhome">
       <AdminDashboard />
@@ -118,12 +121,18 @@ export default function AdminOrCategory() {
                       name="category"
                       required
                     >
-                     
-                      {categories.map((category) => (
-                        <option key={category.categoryId} value={category.categoryId}>
-                          {category.categoryName}
-                        </option>
-                      ))}
+                      {categories &&
+                        categories.length > 0 &&
+                        categories.map((category) => {
+                          return (
+                            <option
+                              key={category.categoryId}
+                              value={category.categoryId}
+                            >
+                              {category.categoryName}
+                            </option>
+                          );
+                        })}
                     </select>
                   </div>
                   {/* Add Button */}
