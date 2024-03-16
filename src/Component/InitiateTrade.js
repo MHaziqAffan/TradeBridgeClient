@@ -9,6 +9,9 @@ export default function () {
   const [sellers, setSellers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [quantity, setQuantity] = useState(0);
+  const [perPrice, setPerPrice] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     // Fetch sellers
@@ -42,6 +45,12 @@ export default function () {
       });
   }, [logedUser.username]);
 
+  // Update total price when quantity or price changes
+  useEffect(() => {
+    const totalPrice = quantity * perPrice;
+    setTotal(totalPrice);
+  }, [quantity, perPrice]);
+
   // Fetch products based on selected category
   const handleCategoryChange = (e) => {
     const selectedCategoryId = e.target.value;
@@ -60,7 +69,6 @@ export default function () {
         console.error("Error fetching products:", err);
       });
   };
-
   return (
     <div className="userhome">
       {/* Assuming UserDashboard is a valid component */}
@@ -165,10 +173,12 @@ export default function () {
                       className="form-control"
                       id="quantity"
                       name="quantity"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(0, parseInt(e.target.value)))}
+                      min="0"
                       required
                     />
                   </div>
-                  {/* Unit Price */}
                   <div className="mb-3">
                     <label htmlFor="unitPrice" className="form-label">
                       <BsCardList className="me-2" /> Unit Price
@@ -186,11 +196,13 @@ export default function () {
                         className="form-control"
                         id="unitPrice"
                         name="unitPrice"
+                        value={perPrice}
+                        onChange={(e) => setPerPrice(Math.max(0, parseFloat(e.target.value)))}
+                        min="0"
                         required
                       />
                     </div>
                   </div>
-                  {/* Total Amount (calculated) */}
                   <div className="mb-3">
                     <label htmlFor="totalAmount" className="form-label">
                       <BsCardList className="me-2" /> Total Amount
@@ -201,8 +213,8 @@ export default function () {
                       className="form-control"
                       id="totalAmount"
                       name="totalAmount"
+                      value={total}
                       readOnly
-                      // You can calculate and set this value using JavaScript
                     />
                   </div>
                   {/* Due Date */}
@@ -216,6 +228,7 @@ export default function () {
                       className="form-control"
                       id="dueDate"
                       name="dueDate"
+                      min={new Date().toISOString().split("T")[0]}
                       required
                     />
                   </div>
