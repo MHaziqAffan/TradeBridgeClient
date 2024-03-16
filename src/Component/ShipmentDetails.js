@@ -1,6 +1,7 @@
 import React from "react";
 import { BsCardList } from "react-icons/bs"; // Import Bootstrap icons
 import UserDashboard from "./UserDashboard";
+
 export default function () {
   return (
     <div className="userhome">
@@ -17,15 +18,32 @@ export default function () {
             </header>
             <div className="row justify-content-center align-items-center">
               <div className="col-md-6">
-                <div className="card" style={{ border: '2px solid #000000' }}>
+                <div className="card" style={{ border: '4px solid #000000' }}>
                   <div className="card-body">
                     <form>
+                      <div className="mb-3">
+                        <label htmlFor="selectShipper" className="form-label">
+                          Select Shipper
+                        </label>
+                        <select
+                          style={{ border: '3px solid #000000' }}
+                          className="form-select"
+                          id="selectShipper"
+                          name="selectShipper"
+                        >
+                          <option value="">Select a Shipper</option>
+                          {/* Add options for different shippers */}
+                          <option value="shipper1">Shipper 1</option>
+                          <option value="shipper2">Shipper 2</option>
+                          <option value="shipper3">Shipper 3</option>
+                        </select>
+                      </div>
                       <div className="mb-3">
                         <label htmlFor="invoiceFile" className="form-label">
                           <BsCardList className="me-2"  /> Invoice File
                         </label>
                         <input
-                          style={{ border: '2px solid #000000' }}
+                          style={{ border: '3px solid #000000' }}
                           type="file"
                           className="form-control"
                           id="invoiceFile"
@@ -40,7 +58,7 @@ export default function () {
                           <BsCardList className="me-2"  /> Shipment Details
                         </label>
                         <textarea
-                          style={{ border: '2px solid #000000' }}
+                          style={{ border: '3px solid #000000' }}
                           className="form-control"
                           id="shipmentDetails"
                           name="shipmentDetails"
