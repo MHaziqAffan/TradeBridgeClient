@@ -61,9 +61,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="App">
+    <div className="App body1">
       <Header />
-      <div className="back-ground d-flex flex-column align-items-center justify-content-center">
+      <div className="d-flex flex-column align-items-center justify-content-center">
         <div className="login-card p-4">
           <h2 className="text-center">Sign Up</h2>
           <form>
