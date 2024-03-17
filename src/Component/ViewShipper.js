@@ -43,8 +43,8 @@ export default function ViewShipper() {
                       height: "150px",
                     }}
                   >
-                    <h5 className="card-title">{shipper.companyName}</h5>
-                    <p className="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, odit quod sint recusandae qui dolorem harum dolores assumenda consectetur nobis reprehenderit nulla corporis? Similique porro doloribus tenetur adipisci velit nihil!</p>
+                    <h5 className="card-title" style={{ fontWeight: 'bold' }}>{shipper.companyName}</h5>
+                    <p className="card-text">{shipper.companyDescription}</p>
                   </div>
                   <div className="card-footer">
                     <div className="card-body">
