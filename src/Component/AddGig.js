@@ -1,44 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef } from "react";
 import UserDashboard from './UserDashboard';
 import { BsCardList } from 'react-icons/bs'; // Import Bootstrap icons
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 export default function AddGig() {
   const logedUser = useSelector((state) => state.login.user);
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/category/allcategories")
-      .then((res) => {
-        if (res.status === 200) {
-          setCategories(res.data.categories);
-        } else {
-          alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching categories:", err);
-      });
-  }, [logedUser.username]);
+  const categoryname = useRef();
+  const productname = useRef();
+  const descriptionname = useRef();
+  const image = useRef();
+  const price = useRef(); // Ref for the price input field
+  const navigate = useNavigate();
 
-  const handleCategoryChange = (e) => {
-    const selectedCategoryId = e.target.value;
-    axios
-      .get(
-        `http://localhost:8080/product/productbycategoryid/${selectedCategoryId}`
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          setProducts(res.data.products);
-        } else {
-          alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching products:", err);
+  const handleAddGig = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("category", categoryname.current.value);
+    formData.append("product", productname.current.value);
+    formData.append("description", descriptionname.current.value);
+    formData.append("price", price.current.value); // Append price to the form data
+    formData.append("image", image.current.files[0]);
+    formData.append("seller", logedUser._id);
+    
+
+    try {
+      const response = await axios.post("http://localhost:8080/gig/addgig", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          CustomHeader: "custom-value",
+        },
       });
+      
+      if (response.status === 202) {
+        alert("Gig added successfully");
+        navigate('/userhome'); // Redirect to the homepage or any other desired route
+      }
+       else {
+        alert("Error adding gig");
+      }
+    } catch (error) {
+      console.error("Error adding gig:", error);
+      alert("Error adding gig");
+    }
   };
+  console.log(logedUser._id)
   return (
     <div className='userhome'>
       <div>
@@ -46,57 +53,52 @@ export default function AddGig() {
       </div>
 
       <div className='container-fluid'>
-      <header className='text-center mb-4'>
-                  <h2 className='display-4'>Hello! Seller</h2>
-                  <p className='lead'>Kindly fill this form</p>
-    </header>
+        <header className='text-center mb-4'>
+          <h2 className='display-4'>Hello! Seller</h2>
+          <p className='lead'>Kindly fill this form</p>
+        </header>
         <div className='row justify-content-center align-items-center'>
           <div className='col-md-6'>
             <div className="card" style={{ border: '4px solid #000000' }}>
               <div className="card-body">
-                <form>
+                <form onSubmit={handleAddGig}>
                   <div className="mb-3">
-                    <label htmlFor="category" className="form-label">
+                    <label htmlFor="category" className="bo">
                       <BsCardList className="me-2"  /> Category
                     </label>
-                    <select className="form-select"style={{ border: '3px solid #000000' }} id="category" name="category" onChange={handleCategoryChange} required>
-                      {/* Add your category options here */}
-                      {categories.map((category) => (
-                        <option
-                          key={category.categoryId}
-                          value={category.categoryId}
-                        >
-                          {category.categoryName}
-                        </option>
-                      ))}
-                      {/* Add more options as needed */}
-                    </select>
+                    <input style={{ border: '3px solid #000000' }} type="text" className="form-control" id="category" name="category" ref={categoryname} required />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="productName" className="form-label">
+                    <label htmlFor="productName" className="bo">
                       <BsCardList className="me-2" /> Product Name
                     </label>
-                    <select className="form-select"style={{ border: '3px solid #000000' }} id="productName" name="productName">
-                      {/* Add your product name options here */}
-                      {products.map((product) => (
-                        <option
-                          key={product.productId}
-                          value={product.productId}
-                        >
-                          {product.productName}
-                        </option>
-                      ))}
-                      {/* Add more options as needed */}
-                    </select>
+                    <input style={{ border: '3px solid #000000' }} type="text" className="form-control" id="productName" name="productName" ref={productname} required />
+                  </div>
+                  <div className="form-group mb-2">
+              <label htmlFor="companyDescription" className="bo">
+                Description:
+              </label>            
+              <input style={{ border: '3px solid #000000' }}
+                className="form-control custom-input"
+                id="companyDescription"
+                name="companyDescription"
+                placeholder="Tell something about product"
+                ref={descriptionname}
+                rows={12} // Adjust the number of rows as needed
+                required
+              />
+              </div>
+                  <div className="mb-3">
+                    <label htmlFor="price" className="bo">
+                      Per kg Price
+                    </label>
+                    <input style={{ border: '3px solid #000000' }} type="number" className="form-control" id="price" name="price" ref={price} required />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="perKiloPrice" className="form-label">
-                      <BsCardList className="me-2" /> Per KG Price
+                    <label htmlFor="image" className="bo">
+                      Image
                     </label>
-                    <div className="input-group">
-                      <span className="input-group-text"style={{ border: '3px solid #000000' }}>$</span>
-                      <input type="number" className="form-control"style={{ border: '3px solid #000000' }} id="perKiloPrice" name="perKiloPrice" />
-                    </div>
+                    <input style={{ border: '3px solid #000000' }} type="file" className="form-control" id="image" name="image" accept="image/*" ref={image} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-success">
