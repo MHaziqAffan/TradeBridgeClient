@@ -11,6 +11,7 @@ const Signup = () => {
   const phone = useRef();
   const type = useRef();
   const image = useRef();
+  const cdescription=useRef();
   const navigate=useNavigate()
   const handleSignup = (e) => {
     e.preventDefault();
@@ -22,7 +23,8 @@ const Signup = () => {
       !password.current.value ||
       !email.current.value ||
       !phone.current.value ||
-      !type.current.value
+      !type.current.value ||
+      !cdescription.current.value
     ) {
       alert("Please fill in all the fields");
       return;
@@ -37,6 +39,8 @@ const Signup = () => {
     formData.append("phoneNumber", phone.current.value);
     formData.append("signUpAs", type.current.value);
     formData.append("image", image.current.files[0]);
+    formData.append("companyDescription",cdescription.current.value);
+    
     axios
       .post("http://localhost:8080/user/signup", formData, {
         headers: {
@@ -174,6 +178,20 @@ const Signup = () => {
                 required
               />
             </div>
+            <div className="form-group mb-2">
+              <label htmlFor="companyDescription" className="bo">
+                Description:
+              </label>            
+              <textarea
+                className="form-control custom-input"
+                id="companyDescription"
+                name="companyDescription"
+                placeholder="Tell us about yourself"
+                ref={cdescription}
+                rows={12} // Adjust the number of rows as needed
+                required
+              ></textarea>
+              </div>
             <Link to="/login">
               <button
                 onClick={handleSignup}
