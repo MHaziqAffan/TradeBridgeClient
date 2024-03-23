@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsCardList } from "react-icons/bs"; // Import Bootstrap icons
 import UserDashboard from "./UserDashboard";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
 export default function () {
+  const logedUser = useSelector((state) => state.login.user);
+  const [shippers, setShippers] = useState([]);
+  useEffect(() => {
+    // Fetch shippers
+    axios
+      .get("http://localhost:8080/user/showshippers", {
+        params: { username: logedUser.username },
+      })
+      .then((res) => {
+        if (res.status === 202) {
+          setShippers(res.data.shippers);
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching sellers:", err);
+      });
+    }, [logedUser.username]);
   return (
     <div className="userhome">
       {/* Assuming UserDashboard is a valid component */}
@@ -31,11 +51,13 @@ export default function () {
                           id="selectShipper"
                           name="selectShipper"
                         >
-                          <option value="">Select a Shipper</option>
+                          
                           {/* Add options for different shippers */}
-                          <option value="shipper1">Shipper 1</option>
-                          <option value="shipper2">Shipper 2</option>
-                          <option value="shipper3">Shipper 3</option>
+                          {shippers.map((shipper) => (
+                        <option key={shipper.username}>
+                          {shipper.companyName}
+                        </option>
+                      ))}
                         </select>
                       </div>
                       <div className="mb-3">
