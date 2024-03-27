@@ -42,7 +42,7 @@ export default function ShipperDashboard() {
               </Link>
             </li>
             <li className="nav-item bg-success">
-              <Link to="" className="btn btn-success text-white mr-3">
+              <Link to="/manage" className="btn btn-success text-white mr-3">
                 Manage Shipments{" "}
               </Link>
             </li>

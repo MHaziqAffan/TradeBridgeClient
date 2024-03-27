@@ -19,6 +19,9 @@ import ShipperHome from "./Component/ShipperHome";
 import UserGig from "./Component/UserGig";
 import { useSelector } from "react-redux";
 import SendDocuments from "./Component/SendDocuments";
+import RequestStatus from "./Component/RequestsStatus";
+import ManageShipments from "./Component/ManageShipments";
+
 function App() {
   const login = useSelector((state) => state.login.login); 
   return (
@@ -40,6 +43,8 @@ function App() {
         {login && <Route path='/usergig' element={<UserGig/>}/>}
         {login && <Route path='/shipperhome' element={<ShipperHome/>}/>  }    
         {login && <Route path='/senddocuments' element={<SendDocuments/>}/>}      
+        {login && <Route path='/status' element={<RequestStatus/>}/>}      
+        {login && <Route path='/manage' element={<ManageShipments/>}/>}      
         <Route path='*' element ={<NotFound/>}/>
       </Routes>
     </Router>
