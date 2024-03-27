@@ -16,6 +16,7 @@ import AdminOrCategory from "./Component/AdminOrCategory";
 import ViewSeller from "./Component/ViewSeller";
 import ViewShipper from "./Component/ViewShipper";
 import ShipperHome from "./Component/ShipperHome";
+import UserGig from "./Component/UserGig";
 import { useSelector } from "react-redux";
 import SendDocuments from "./Component/SendDocuments";
 function App() {
@@ -34,8 +35,9 @@ function App() {
         {login && <Route path='/shipment' element ={<ShipmentDetails/>}/>}
         {login && <Route path='/adminhome' element={<AdminHome/>}/>}
         {login && <Route path='/adminorcategory' element={<AdminOrCategory/>}/>}
-        {login && <Route path='/viewseller' element={<ViewSeller/>}/>}
+        {login && <Route path='/viewseller' element={<ViewSeller/>}/>}       
         {login && <Route path='/viewshipper' element={<ViewShipper/>}/>}
+        {login && <Route path='/usergig' element={<UserGig/>}/>}
         {login && <Route path='/shipperhome' element={<ShipperHome/>}/>  }    
         {login && <Route path='/senddocuments' element={<SendDocuments/>}/>}      
         <Route path='*' element ={<NotFound/>}/>

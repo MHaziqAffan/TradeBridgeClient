@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminDashboard from "./AdminDashboard";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ViewSeller = () =>  {
@@ -49,9 +50,12 @@ const ViewSeller = () =>  {
                   </div>
                   <div className="card-footer">
                     <div className="card-body">
-                      <a href="#" className="btn btn-primary">
-                        view
-                      </a>
+                    <Link
+                      to={`/usergig?seller=${seller._id}`} // Pass seller's ID as a query parameter
+                    className="btn btn-success"
+                    >
+                    View
+                    </Link>
                     </div>
                   </div>
                 </div>
